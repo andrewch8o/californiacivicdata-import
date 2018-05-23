@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Export and archive a .csv file for a given model.
+Import data from previously archived calaccess .csv files into a database after matching each file to the corresponding calaccess model by file name
 """
 import os
 from django.core.files import File
@@ -12,16 +12,9 @@ from calaccess_processed.models.tracking import ProcessedDataVersion, ProcessedD
 
 class Command(CalAccessCommand):
     """
-    Export and archive a .csv file for a given model.
+    Import data from previously archieved calaccess .csv files into a database
     """
-    help = 'Export and archive a .csv file for a given model.'
-
-    def add_arguments(self, parser):
-        """
-        Adds custom arguments specific to this command.
-        """
-        super(Command, self).add_arguments(parser)
-        parser.add_argument('model_name', help="Name of the model to archive")
+    help = 'Import data from previously archieved calaccess .csv files into a database'
 
     def get_model(self, processed_file):
         """
@@ -36,19 +29,19 @@ class Command(CalAccessCommand):
         super(Command, self).handle(*args, **options)
 
         # Parse model name
-        self.model_name = options['model_name']
+        #self.model_name = options['model_name']
 
         # Log out what we're doing ...
-        self.log(" Archiving %s.csv" % self.model_name)
+        #self.log(" Archiving %s.csv" % self.model_name)
 
         # ... get the current version ...
         version = ProcessedDataVersion.objects.latest('process_start_datetime')
 
         # ... and the processed file object ...
-        try:
-            processed_file = version.files.get(file_name=self.model_name)
-        except ProcessedDataFile.DoesNotExist:
-            processed_file = version.files.create(file_name=self.model_name)
+        #try:
+        #    processed_file = version.files.get(file_name=self.model_name)
+        #except ProcessedDataFile.DoesNotExist:
+        #    processed_file = version.files.create(file_name=self.model_name)
 
         # Get the data obj that is paired with the processed_file obj
         data_model = self.get_model(processed_file)
