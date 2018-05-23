@@ -35,6 +35,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #California Civic Data project apps
+    'calaccess_raw',
+    'calaccess_scraped',
+    'calaccess_processed',
+    'calaccess_processed_filings',
+    'calaccess_processed_elections',
+    'calaccess_processed_flatfiles',
+    'calaccess_processed_campaignfinance',
+    'opencivicdata.core.apps.BaseConfig',
+    'opencivicdata.elections.apps.BaseConfig',
 ]
 
 MIDDLEWARE = [
