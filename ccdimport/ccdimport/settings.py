@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+import glob
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -70,17 +71,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'ccdimport.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
-
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
 
@@ -118,3 +108,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# "Including" secrets configuration as per 'Using a list of conf files (Transifex)' @https://code.djangoproject.com/wiki/SplitSettings
+#   + https://stackoverflow.com/questions/6357361/alternative-to-execfile-in-python-3
+secrets_config=os.path.abspath(
+    glob.glob(os.path.join(os.path.dirname(__file__), 'settings', 'secrets.conf')))
+exec(compile(open((secrets_config), "rb").read(), secrets_config, 'exec'), globals, locals)
