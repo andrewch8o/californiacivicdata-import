@@ -1,3 +1,4 @@
 ccdimport/ccdimport/settings/secrets.conf
 ccdimport/.vscode/*
-ccdimport/ccdimport/__pycache__/*
+__pycache__/
+*.py[cod]
