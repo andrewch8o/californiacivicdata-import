@@ -20,6 +20,7 @@ class Command(CalAccessCommand):
         """
         Get the model linked to this processed file record.
         """
+        #TODO: implement model resolution
         raise NotImplementedError
 
     def handle(self, *args, **options):
@@ -27,16 +28,19 @@ class Command(CalAccessCommand):
         Make it happen.
         """
         super(Command, self).handle(*args, **options)
-        self.log("I'm alive!")
         #establish "import" directory location
-            # Figure out the path where we will save the file
-        '''csv_dir = os.path.join(
+        csv_dir = os.path.join(
             get_data_directory(),
-            'processed',
-            data_model().klass_group.lower()
+            'processed'
         )
+        
+        file_list = os.listdir(csv_dir)
+        for fname in file_list:
+            filename, file_extension = os.path.splitext(fname)
+            self.get_model(filename)
+
         #get files in the directory
-        os.path.exists(csv_dir) or os.mkdir(csv_dir)
+        '''os.path.exists(csv_dir) or os.mkdir(csv_dir)
         csv_name = '{}.csv'.format(processed_file.file_name)
         csv_path = os.path.join(csv_dir, csv_name)
 
