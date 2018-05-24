@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'calaccess_processed_campaignfinance',
     'opencivicdata.core.apps.BaseConfig',
     'opencivicdata.elections.apps.BaseConfig',
+    #Import app
+    'calaccess_processed_import'
 ]
 
 MIDDLEWARE = [
