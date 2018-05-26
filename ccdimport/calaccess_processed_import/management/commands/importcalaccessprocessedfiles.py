@@ -72,26 +72,14 @@ class Command(CalAccessCommand):
         )
         
         file_list = os.listdir(csv_dir)
-        self.get_model("")
         for fname in file_list:
             filename, file_extension = os.path.splitext(fname)
             model = self.get_model(filename)
             if model is None:
-                self.log("FAILED to resolve model for '{}'".format(filename))
+                self.warn("FAILED to resolve model for the file '{}'".format(filename))
             else:
-                self.log("RESOLVED file: '{}'; model: '{}'".format(filename, model))
-
-        #get files in the directory
-        '''os.path.exists(csv_dir) or os.mkdir(csv_dir)
-        csv_name = '{}.csv'.format(processed_file.file_name)
-        csv_path = os.path.join(csv_dir, csv_name)
-
-        # Open up the .CSV file for reading so we can wrap it in the Django File obj
-        with open(csv_path, 'rb') as csv_file:
-            # Save the .CSV on the processed data file
-            processed_file.file_archive.save(csv_name, File(csv_file))
-
-        #go through the files
-        #map each file to a model & execute model from_csv
-            # Get the data obj that is paired with the processed_file obj
-        data_model = self.get_model(processed_file)'''
+                self.log("IMPORTING file: '{}'; model: '{}'".format(filename, model))
+                model.objects.from_csv(
+                    os.path.join(csv_dir, fname),
+                    dict((f.name, f.db_column) for f in model._meta.fields)
+                )
