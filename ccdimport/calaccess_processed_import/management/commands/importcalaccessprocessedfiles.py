@@ -78,8 +78,7 @@ class Command(CalAccessCommand):
             if model is None:
                 self.warn("FAILED to resolve model for the file '{}'".format(filename))
             else:
-                self.log("IMPORTING file: '{}'; model: '{}'".format(filename, model))
+                self.log("IMPORTING file: '{}'; table '{}'; model: '{}'".format(filename, model._meta.db_table, model))
                 model.objects.from_csv(
-                    os.path.join(csv_dir, fname),
-                    dict((f.name, f.db_column) for f in model._meta.fields)
+                    os.path.join(csv_dir, fname)
                 )
