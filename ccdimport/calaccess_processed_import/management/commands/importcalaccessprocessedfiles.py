@@ -4,6 +4,7 @@
 Import data from previously archived calaccess .csv files into a database after matching each file to the corresponding calaccess model by file name
 """
 import os
+import traceback
 from django.apps import apps
 from django.core.files import File
 from calaccess_raw import get_data_directory
@@ -79,6 +80,10 @@ class Command(CalAccessCommand):
                 self.warn("FAILED to resolve model for the file '{}'".format(filename))
             else:
                 self.log("IMPORTING file: '{}'; table '{}'; model: '{}'".format(filename, model._meta.db_table, model))
-                model.objects.from_csv(
-                    os.path.join(csv_dir, fname)
-                )
+                try:
+                    model.objects.from_csv(
+                        os.path.join(csv_dir, fname)
+                    )
+                except Exception:
+                    self.warn("FAILED")
+                    self.log(traceback.print_exc())
